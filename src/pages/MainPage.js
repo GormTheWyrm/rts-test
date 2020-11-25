@@ -1,7 +1,7 @@
 import React from 'react';
 import '../App.css';
-import Searchbar from '../components/Searchbar/Searchbar';
-import SearchResult from '../components/SearchResult/SearchResult';
+import Searchbar from '../features/SearchFeature/Searchbar';
+import SearchResult from '../features/SearchFeature/SearchResult';
 
 
 function MainPage() {
@@ -10,7 +10,7 @@ function MainPage() {
           {/* header name */}
           {/* search bar - form */}
           {/* search results */}
-       <p>test</p>
+       <h3>Search The Hacker News API</h3>
       <Searchbar />
       <SearchResult />
 

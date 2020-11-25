@@ -1,5 +1,5 @@
 import React from 'react';
-import './style.css';
+import './SearchFeature.css';
 
 
 function SearchResult() {
@@ -11,3 +11,6 @@ function SearchResult() {
     );
   }
   export default SearchResult;
+
+  //store.getstate...
+  //before fiddling with thunks test redux

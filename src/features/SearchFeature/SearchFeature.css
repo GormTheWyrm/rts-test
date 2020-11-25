@@ -1,0 +1,11 @@
+.Searchbar{
+    margin: 15px;
+    width: 225px;
+    border: goldenrod;
+    background-color: gray;
+}
+.SearchResult{
+    background-color: indianred;
+    width: 350px;
+    margin: 15px;
+}
