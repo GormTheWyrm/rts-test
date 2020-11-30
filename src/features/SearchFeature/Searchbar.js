@@ -42,10 +42,19 @@ function Searchbar() {
   //figure out why data is logged twice
 
   const dispatch = useDispatch();
+  const clickMe = (event) => {
+    event.preventDefault();
+    dispatch(testResults());
+    //this did not work. Clicking any button is resetting state. 
+    //The new state is implemented and a console log runs but the console log runs for both buttons
+    //and the state is immediately reset
+    //might be a propagation issue...
+}
   return (
     <div className='SearchbarContainer'>
-      <form onSubmit={() => dispatch(testResults())}>
+      <form onSubmit={(event) => clickMe(event)}>
         {/* swap with saveResults... once working */}
+        {/* dispatch(testResults()) */}
         <label>
           Search for:
        <input type="text" name="searchbar" className='Searchbar' />
@@ -58,7 +67,7 @@ function Searchbar() {
         and implementing thunk where?*/}
       
 
-      <button onSubmit={() => dispatch(testResults())}> TEST </button>
+      <button onSubmit={(event) => clickMe}> TEST </button>
       <p>Search among tags: </p>
       <input type="checkbox" id="titleTag" name="titleTag" value={true} />
       <label > Story / Title Name</label> <br />

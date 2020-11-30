@@ -28,10 +28,14 @@ export const slice = createSlice({
         ,
         testResults: state => {
             // state.hits[0]= {title: "Example Title", author: "Example Author"};
-            state.hits[0].title = 'testTitle';
-            state.hits[0].author = 'testAuthor';
+            let newState = state;
+            
+            console.log('testing state');   //this seems to revert... why?
+            newState.hits[0].title = 'testTitle';
+            newState.hits[0].author = 'testAuthor';
             //hits[0].title     is API structure
-            console.log(state.searchFeature);
+            return newState;
+            
         }
     }
 

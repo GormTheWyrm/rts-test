@@ -6,7 +6,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import {saveResults, testResults, selectSearchResults} from './searchSlice';
 
 
-function SearchFeature() { 
+
+
+function SearchFeature(props) { 
     // const results = useSelector(selectSearchResults);
     const results = useSelector(state => state.searchFeature.hits);
     
