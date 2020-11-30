@@ -3,6 +3,8 @@
   background-color: #282c34;
   min-height: 100vh;
   color: aliceblue;
+  margin-top: -2vh;
+  /* no idea where the top margin came from - its not appearing on my dev tools */
 }
 
 

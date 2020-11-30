@@ -2,12 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import reportWebVitals from './reportWebVitals'; //this does not seem particualrly helpful...
+import { Provider } from 'react-redux';
+import store from './store';
+//serviceworker is imported here in example I am looking at. It is unregistered at the end of the file. I am skippign this
 
 ReactDOM.render(
-  <React.StrictMode>
+  // <React.StrictMode> //not sure how important this is...
+  //provider needed to provide acess to state in redux
+ <Provider store={store}> 
     <App />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById('root')
 );
 

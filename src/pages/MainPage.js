@@ -1,19 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import '../App.css';
-import Searchbar from '../features/SearchFeature/Searchbar';
-import SearchResult from '../features/SearchFeature/SearchResult';
+import SearchFeature from '../features/SearchFeature/SearchFeature';
 
 
-function MainPage() {
+function MainPage() { 
+
     return (
       <div className="App">
-          {/* header name */}
-          {/* search bar - form */}
-          {/* search results */}
-       <h3>Search The Hacker News API</h3>
-      <Searchbar />
-      <SearchResult />
-
+       <SearchFeature />
       </div>
     );
   }

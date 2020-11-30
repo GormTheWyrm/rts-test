@@ -20,3 +20,5 @@ Let us know if you have any questions! If you're good to go, please send us back
 
 current tutorial: https://redux.js.org/tutorials/essentials/part-2-app-structure
 * learn thunks next.
+
+need to relearn: slices, useSelector and useDispatch

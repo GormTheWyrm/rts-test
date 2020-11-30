@@ -1,11 +1,20 @@
 .Searchbar{
     margin: 15px;
-    width: 225px;
-    border: goldenrod;
+    min-width: 225px;
+    max-width: fit-content;
+    border: goldenrod 1px solid;
     background-color: gray;
-}
+    font-size: large;
+   }
+   .SearchbarContainer{
+    text-align: left;
+    margin-left: 25px;
+   }
 .SearchResult{
-    background-color: indianred;
-    width: 350px;
+    background-color: darkslategray;
+    border: 2px solid indianred;
+    /* width: 350px; */
     margin: 15px;
+    padding-left: 5px;
+    text-align: left;
 }
