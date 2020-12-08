@@ -29,7 +29,6 @@ function Searchbar() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(event.target.searchbar.value);  //!!! VALUE I NEED!
     let query = event.target.searchbar.value;
     const baseUrl = 'https://hn.algolia.com/api/v1/search?';
     let searchUrl = baseUrl + 'query=' + query; //query can be blank without error
@@ -41,7 +40,7 @@ function Searchbar() {
     // sets up myTags if any of the tag checkboxes are checked
     if ((event.target.story.checked === true) || (event.target.comments.checked === true) || (event.target.polls.checked === true)
       || (event.target.pollops.checked === true) || (event.target.showhn.checked === true) || (event.target.askhn.checked === true)
-      || (event.target.frontpage.checked === true)) {
+      || (event.target.frontpage.checked === true) || (event.target.useAuthor.checked === true) || (event.target.useStory.checked === true)) {
       myTags += `&tags=`;
       if (event.target.orTags.checked === true) {
         myTags += '(';
@@ -58,24 +57,30 @@ function Searchbar() {
       }
       if (event.target.polls.checked === true) {
         myTags += `poll,`;
-        //retuned title, but no URL... maybe return the objectID?
-        //maybe return points as well...
       }
       if (event.target.pollops.checked === true) {
         myTags += `pollopt,`;
-        //only author showing up...
       }
       if (event.target.showhn.checked === true) {
         myTags += `show_hn,`;
-        //no results -troubleshoot me!
       }
       if (event.target.showhn.checked === true) {
         myTags += `ask_hn,`;
-        //n0 results - needs troubleshooting!
       }
-      if (event.target.showhn.checked === true) {
+      if (event.target.frontpage.checked === true) {
         myTags += `front_page,`;
       }
+
+      if (event.target.useAuthor.checked === true) {
+        //!!!
+        myTags += `author_${event.target.authorId.value},`;
+      }
+      if (event.target.useStory.checked === true){
+        //!!!
+        myTags += `story_${event.target.storyId.value},`;
+        //need to figure this out
+      }
+
       if (event.target.orTags.checked === true) {
         myTags += ')';
       }
@@ -102,24 +107,22 @@ function Searchbar() {
   }
 
 
-//
+  //
 
 
   return (
     <div className='SearchbarContainer'>
       <form onSubmit={(event) => handleSubmit(event)}>
-        {/* swap with saveResults... once working */}
-        {/* dispatch(testResults()) */}
+
+
+
         <label>
           Search for:
        <input type="text" name="searchbar" className='Searchbar' />
         </label>
         <input type="submit" value="Search"
         />
-        {/* saveResults function from searchSlice - 
-        need to figure out how to read redux state in order to check if it worked... 
-        which mens learning thunks...
-        and implementing thunk where?*/}
+
         <br />
         <input type="checkbox" name="orTags" />
         <label > Select to toggle tag search behavior from AND to OR</label><br />
@@ -142,10 +145,56 @@ function Searchbar() {
         <label > Ask HN</label> <br />
         <input type="checkbox" name="frontpage" />
         <label > Front Page</label> <br />
+        <input type="checkbox" name="useAuthor" />
+        <label > Use Author ID</label> 
+        <input type="text" name="authorId" />
+        <br />
+        <input type="checkbox" name="useStory" />
+        <label > Use Story ID</label> 
+        <input type="text" name="storyId" />
+        <br />
+    {/* need to test to see if this works, also add to submit function */}
+{/* below is unfinished */}
+
         {/* for attribute not supported by Edge */}
         {/* need author and id search options... (verify this)*/}
         {/* URL parameters like &page=2 or hitsPerPage=50 ...number of pages and results per page should be paramters! */}
         {/* add a page and num per page button... */}
+        <p>numeric filters</p>
+        {/* dropdowns work best for numeric? options of <, <=, =, > or >= */}
+
+
+        <select name='dateSelect'>
+          <option value="<"> </option>
+          <option value="<=">Lime</option>
+          <option selected value="=">Coconut</option>
+          <option value="mango">Mango</option>
+        </select>
+
+
+        <input type="checkbox" name="createdat" />
+        <label > Created At</label>
+        {/* text input too? */}
+        <br />
+        <input type="checkbox" name="points" />
+        <label > Points</label>
+        {/* text input too? */}
+        <br />
+        <input type="checkbox" name="createdat" />
+        <label > Created At</label>
+        {/* text input too? */}
+        <br />
+        <input type="checkbox" name="createdat" />
+        <label > Created At</label>
+        {/* text input too? */}
+        <br />
+        <input type="checkbox" name="createdat" />
+        <label > Created At</label>
+        {/* text input too? */}
+        <br />
+        {/* example url: https://hn.algolia.com/api/v1/search?tags=story,author_breck&query=cheese
+                  http://hn.algolia.com/api/v1/search_by_date?tags=story&numericFilters=created_at_i>X,created_at_i<Y    
+          */}
       </form>
     </div >
   );
