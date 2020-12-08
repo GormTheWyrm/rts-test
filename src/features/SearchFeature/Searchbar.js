@@ -62,18 +62,25 @@ function Searchbar() {
         myTags += ')';
       }
       searchUrl += myTags;  //adds myTags to search url. This code is missed if no tags selected
-      console.log('searchUrl');
-      console.log(searchUrl);
+
     }
     // if &numericFilters then add &numericFilters=
+    //text,condition,number Select1 , numeric1 checkbox
+if (event.target.numeric1.checked === true /* or numeric2*/){
     //
-     let myNum = parseInt(event.target.pagenum.value);
-      let myBool = Number.isInteger(myNum);
-    if (myNum > 1){
+    let numSelect1 = parseInt(event.target.numberSelect1.value); //return 0 if NaN
+    
+  searchUrl += `&numericFilters=${event.target.textSelect1.value}${event.target.conditionSelect1.value}${numSelect1}`;
+}
+
+
+     let pageNum = parseInt(event.target.pagenum.value);
+      let pageBool = Number.isInteger(pageNum);
+    if (pageNum > 1){
     
       
-      if (myBool === true){
-        searchUrl += `&page=${myNum}`;
+      if (pageBool === true){
+        searchUrl += `&page=${pageNum}`;
       //else would do nothing - no need for an else statement...
       }
       
@@ -115,7 +122,7 @@ function Searchbar() {
         <p>Search among tags: </p>
 
         {/*  can filter on tags: story, comment, poll, pollop, show_hn, ask_hn, front_page, author_:USERNAME, story_:ID */}
-
+        {/* checkboxes */}
         <input type="checkbox" name="story" />
         <label > Story / Title Name</label><br />
         <input type="checkbox" name="comments" />
@@ -139,14 +146,29 @@ function Searchbar() {
         <input type="text" name="storyId" />
         <br />
 
-        {/* page number: not yet validated  */}
+        {/* page number */}
         <label > Page Number</label>
         <input type="number" name="pagenum" placeholder={1} />
         {/* for attribute not supported by Edge */}
-
-
-        {/* below is unfinished */}
         <p>numeric filters</p>
+        {/* checkbox for each filter, then two selects where dropdown and numerical condition can be selected */}
+        <label > First Numeric Filter</label> <br />
+        <input type="checkbox" name="numeric1" />
+        <select name='textSelect1'>
+          <option value='created_at_i'>Created At</option>
+          <option value='points'>Points</option>
+          <option value="num_comments">Number of Comments</option>
+        </select>
+        <select name='conditionSelect1'>
+          <option value='<'>Less Than</option>
+          <option value='<='>Less Than or Equal To</option>
+          <option value="=">Equal to</option>
+          <option value='>'> Greater Than</option>
+          <option value='>='>Greater Than or Equal To</option>
+        </select>
+        <input type="number" name="numberSelect1" />
+        {/* second Numeric filter so users can do a range or narrow downresults to some degree */}
+        
         {/* created_at_i, points, num_comments, 
             page= integer
             
@@ -155,34 +177,9 @@ function Searchbar() {
         {/* URL parameters like &page=2 or hitsPerPage=50 ...number of pages and results per page should be paramters! */}
         {/* add a page and num per page button... */}
 
-        <select name='dateSelect'>
-          <option value="<"> </option>
-          <option value="<=">Lime</option>
-          <option selected value="=">Coconut</option>
-          <option value="mango">Mango</option>
-        </select>
 
+        
 
-        <input type="checkbox" name="createdat" />
-        <label > Created At</label>
-        {/* text input too? */}
-        <br />
-        <input type="checkbox" name="points" />
-        <label > Points</label>
-        {/* text input too? */}
-        <br />
-        <input type="checkbox" name="createdat" />
-        <label > Created At</label>
-        {/* text input too? */}
-        <br />
-        <input type="checkbox" name="createdat" />
-        <label > Created At</label>
-        {/* text input too? */}
-        <br />
-        <input type="checkbox" name="createdat" />
-        <label > Created At</label>
-        {/* text input too? */}
-        <br />
         {/* example url: https://hn.algolia.com/api/v1/search?tags=story,author_breck&query=cheese
                   http://hn.algolia.com/api/v1/search_by_date?tags=story&numericFilters=created_at_i>X,created_at_i<Y    
           */}
