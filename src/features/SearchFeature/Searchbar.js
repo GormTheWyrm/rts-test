@@ -1,27 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './SearchFeature.css';
-import API from './API';  //delete this?
 import { saveResults, testResults, searchAPI } from './searchSlice';
-
-
-//when user submits query it should save query into state
-//...actual axios call made on main page so that the results can be mapped there
-//.....no, made here, and main page will use the results from state...
-//this function should also add filters and other info to state...
-//but those must be displayed here
-
-//sort by relevance, points then number of comments
-//...
-//sort by date, most recent first
-//...
-// can filter on tags: story, comment, poll, pollop, show_hn, ask_hn, front_page, author_:USERNAME, story_:ID
-//numeric filters: numericFilters=  created_at_i, points, num_comments
-//...< , <= , = , >, <, >=
-//page=pagenumber
-//return axios.get(finalURL);
-// Axios.get('http://hn.algolia.com/api/v1/search?query=test')
-
 
 
 function Searchbar() {
@@ -72,13 +52,10 @@ function Searchbar() {
       }
 
       if (event.target.useAuthor.checked === true) {
-        //!!!
         myTags += `author_${event.target.authorId.value},`;
       }
-      if (event.target.useStory.checked === true){
-        //!!!
+      if (event.target.useStory.checked === true) {
         myTags += `story_${event.target.storyId.value},`;
-        //need to figure this out
       }
 
       if (event.target.orTags.checked === true) {
@@ -88,12 +65,20 @@ function Searchbar() {
       console.log('searchUrl');
       console.log(searchUrl);
     }
-    //author: USERNAME
-    //story: ID
-    //will need to figure out whether this is going through as AND or OR and make the option available
-    //replace query with ID and url if author or sotry id == true?... remov query and ...
-    //...no, add a text form/box to read values from...
-
+    // if &numericFilters then add &numericFilters=
+    //
+     let myNum = parseInt(event.target.pagenum.value);
+      let myBool = Number.isInteger(myNum);
+    if (myNum > 1){
+    
+      
+      if (myBool === true){
+        searchUrl += `&page=${myNum}`;
+      //else would do nothing - no need for an else statement...
+      }
+      
+    }
+    console.log(event.target.pagenum.value);
 
     let results = { hits: [{}], searchTerms: query, searchUrl: searchUrl }; // create results to be sent through middleware
     // results.searchUrl = searchUrl;  //set searchUrl in results so it gets searched in API
@@ -146,23 +131,29 @@ function Searchbar() {
         <input type="checkbox" name="frontpage" />
         <label > Front Page</label> <br />
         <input type="checkbox" name="useAuthor" />
-        <label > Use Author ID</label> 
+        <label > Use Author ID</label>
         <input type="text" name="authorId" />
         <br />
         <input type="checkbox" name="useStory" />
-        <label > Use Story ID</label> 
+        <label > Use Story ID</label>
         <input type="text" name="storyId" />
         <br />
-    {/* need to test to see if this works, also add to submit function */}
-{/* below is unfinished */}
 
+        {/* page number: not yet validated  */}
+        <label > Page Number</label>
+        <input type="number" name="pagenum" placeholder={1} />
         {/* for attribute not supported by Edge */}
-        {/* need author and id search options... (verify this)*/}
+
+
+        {/* below is unfinished */}
+        <p>numeric filters</p>
+        {/* created_at_i, points, num_comments, 
+            page= integer
+            
+        */}
+        {/* dropdowns work best for numeric? options of <, <=, =, > or >= */}
         {/* URL parameters like &page=2 or hitsPerPage=50 ...number of pages and results per page should be paramters! */}
         {/* add a page and num per page button... */}
-        <p>numeric filters</p>
-        {/* dropdowns work best for numeric? options of <, <=, =, > or >= */}
-
 
         <select name='dateSelect'>
           <option value="<"> </option>
