@@ -18,7 +18,5 @@ Resources:
 Let us know if you have any questions! If you're good to go, please send us back your project at your convenience (please upload your project to a public git repository, such as Github).
 
 
-current tutorial: https://redux.js.org/tutorials/essentials/part-2-app-structure
-* learn thunks next.
 
-need to relearn: slices, useSelector and useDispatch
+
