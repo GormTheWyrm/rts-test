@@ -5,7 +5,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals'; //this does not seem particualrly helpful...
 import { Provider } from 'react-redux';
 import store from './store';
-//serviceworker is imported here in example I am looking at. It is unregistered at the end of the file. I am skippign this
 
 ReactDOM.render(
   // <React.StrictMode> //not sure how important this is...

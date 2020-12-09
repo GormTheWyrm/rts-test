@@ -155,6 +155,7 @@ function Searchbar() {
         </select>
         <input type="number" name="numberSelect1" />
         {/* second Numeric filter so users can do a range or narrow down results to some degree */}
+        <br />
         <label > Second Numeric Filter</label> <br />
         <input type="checkbox" name="numeric2" />
         <select name='textSelect2'>

@@ -9,13 +9,7 @@ import {saveResults, testResults, selectSearchResults} from './searchSlice';
 
 
 function SearchFeature(props) { 
-    // const results = useSelector(selectSearchResults);
     const results = useSelector(state => state.searchFeature.hits);
-    
-
-    //get details from state here 
-    // const testDataString = useSelector(testData);
-    // //broken
     
         return (
           <div >
@@ -23,15 +17,12 @@ function SearchFeature(props) {
           <Searchbar />
           <ul>
              {results.map((result, index) => (
-                <SearchResult key={index} title={result.title} author={result.author} url={result.url} comments={result.comments}/>  
+                <SearchResult key={index} title={result.title} author={result.author} url={result.url} comments={result.num_comments}
+                  points={result.points} secondsAgo={result.created_at_i} date={result.created_at}
+                />  
             ))} 
           </ul>
-            
-          
-          {/* map the search results next! */}
-    
-    {/* add a next page button- would need a page number in state */}
-    
+                
           </div>
         );
       }
