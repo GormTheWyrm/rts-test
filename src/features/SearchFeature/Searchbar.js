@@ -44,7 +44,7 @@ function Searchbar() {
       if (event.target.showhn.checked === true) {
         myTags += `show_hn,`;
       }
-      if (event.target.showhn.checked === true) {
+      if (event.target.askhn.checked === true) {
         myTags += `ask_hn,`;
       }
       if (event.target.frontpage.checked === true) {
@@ -64,22 +64,28 @@ function Searchbar() {
       searchUrl += myTags;  //adds myTags to search url. This code is missed if no tags selected
 
     }
-    // if &numericFilters then add &numericFilters=
-    //text,condition,number Select1 , numeric1 checkbox
+    // &numericFilters
     if ((event.target.numeric1.checked === true) || (event.target.numeric2.checked === true)) {
       //check each filter individually
-      let numFilters ='&numericFilters=';
+      let numFilters = '&numericFilters=';
+      
+      
       if (event.target.numeric1.checked === true) {
-        let numSelect1 = parseInt(event.target.numberSelect1.value); 
-        if (numSelect1 === NaN){ numSelect1 =0;}
+        let numSelect1 = parseInt(event.target.numberSelect1.value);
+        if (isNaN(numSelect1) === true) { numSelect1 = 0; }
         numFilters += `${event.target.textSelect1.value}${event.target.conditionSelect1.value}${numSelect1},`;
       }
+
       if (event.target.numeric2.checked === true) {
-        let numSelect2 = parseInt(event.target.numberSelect2.value); 
-        if (numSelect2 === NaN){ numSelect2 =0;}
+        let numSelect2 = parseInt(event.target.numberSelect2.value);
+        if ((isNaN(numSelect2) === true)) { numSelect2 = 0; }
         numFilters += `${event.target.textSelect2.value}${event.target.conditionSelect2.value}${numSelect2}`;
       }
-      searchUrl =+ numFilters;
+      
+
+      searchUrl += numFilters;
+      console.log('num filters');
+      console.log(numFilters);
     }
 
 
@@ -94,7 +100,14 @@ function Searchbar() {
       }
 
     }
-    console.log(event.target.pagenum.value);
+
+    let pageHitNum = parseInt(event.target.numHits.value);
+    if ((isNaN(pageHitNum) === true || pageHitNum < 1)) {
+      pageHitNum = 10;
+    }
+    searchUrl += `&hitsPerPage=${pageHitNum}`;
+
+
 
     let results = { hits: [{}], searchTerms: query, searchUrl: searchUrl }; // create results to be sent through middleware
     // results.searchUrl = searchUrl;  //set searchUrl in results so it gets searched in API
@@ -103,33 +116,21 @@ function Searchbar() {
 
 
 
-    dispatch(searchAPI(results)); //update to include custom query
-    //working, but only does basic search, no tags, etc
+    dispatch(searchAPI(results));
   }
-
-
-  //
-
-
+  // START COMPONENT
   return (
     <div className='SearchbarContainer'>
       <form onSubmit={(event) => handleSubmit(event)}>
-
-
-
         <label>
           Search for:
        <input type="text" name="searchbar" className='Searchbar' />
         </label>
-        <input type="submit" value="Search"
-        />
-
+        <input type="submit" value="Search" />
         <br />
         <input type="checkbox" name="orTags" />
         <label > Select to toggle tag search behavior from AND to OR</label><br />
-
         <p>Search among tags: </p>
-
         {/*  can filter on tags: story, comment, poll, pollop, show_hn, ask_hn, front_page, author_:USERNAME, story_:ID */}
         {/* checkboxes */}
         <input type="checkbox" name="story" />
@@ -154,10 +155,13 @@ function Searchbar() {
         <label > Use Story ID</label>
         <input type="text" name="storyId" />
         <br />
-
         {/* page number */}
         <label > Page Number</label>
         <input type="number" name="pagenum" placeholder={1} />
+        {/* hitsPerPage */}
+        <br />
+        <label >Results Per Page</label>
+        <input type="number" name="numHits" placeholder={20} />
         {/* for attribute not supported by Edge */}
         <p>numeric filters</p>
         {/* checkbox for each filter, then two selects where dropdown and numerical condition can be selected */}
@@ -192,18 +196,6 @@ function Searchbar() {
           <option value='>='>Greater Than or Equal To</option>
         </select>
         <input type="number" name="numberSelect2" />
-
-        {/* created_at_i, points, num_comments, 
-            page= integer
-            
-        */}
-        {/* dropdowns work best for numeric? options of <, <=, =, > or >= */}
-        {/* URL parameters like &page=2 or hitsPerPage=50 ...number of pages and results per page should be paramters! */}
-        {/* add a page and num per page button... */}
-
-
-
-
         {/* example url: https://hn.algolia.com/api/v1/search?tags=story,author_breck&query=cheese
                   http://hn.algolia.com/api/v1/search_by_date?tags=story&numericFilters=created_at_i>X,created_at_i<Y    
           */}
@@ -212,6 +204,3 @@ function Searchbar() {
   );
 }
 export default Searchbar;
-//need to save query in state
-//need to save each filter as a bool... 
-//...
