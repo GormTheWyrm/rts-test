@@ -2,6 +2,7 @@
 ## Description 
 This project is a take home exercise for RTS Labs.
 
+See deployed version at: https://gorms-rts-lab-homework.herokuapp.com/
 
 ## Instructions-For-Use: 
     1. Navigate to https://gorms-rts-lab-homework.herokuapp.com/
