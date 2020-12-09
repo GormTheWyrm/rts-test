@@ -22,27 +22,28 @@ const searchSlice = createSlice({
             //action will need: hits[], query...
             return newState;
             //this should not actually mutate logic because of @reduxjs/toolkit 's reliance on immer library but I return a new state anyways
-        }
-        
+        },
+        ApiError: (state, action) => {
+            //error in API just reset state
+            let newState = state;
+            return newState;
+        },
     }
 
 });
-export const { saveResults, testResults } = searchSlice.actions; //this defines the actions for this Reducer-Slice-Function
+export const { saveResults } = searchSlice.actions; //this defines the actions for this Reducer-Slice-Function
 // add reducers to above when adding reducers
 // call with searchSlice.actions.xxx    these actions will change the state
-// export const testData = state => state.searchFeature.testData;
+
 
 export const selectSearchResults = state => state.searchFeature.hits;
-//useSelectors like above can also be defined where the are used.
+//useSelectors like above can also be defined where they are used.
 
 export const searchAPI = (action) => {
-    //action = hits[], searchterms,searchUrl - no payload!
-    // console.log(action);  //seems to be working now
-    
+    //action = hits[], searchterms,searchUrl - no payload!  
     return async (dispatch) => {
         try {
             //action made it into this function - still no payload
-            //axios here
             axios.get(action.searchUrl) //axios searches API
                 .then(res => {
                     //res.data = hits[], hitsperpage, nbhits, nbpages, page, params, processingTimesMS, query
@@ -50,9 +51,7 @@ export const searchAPI = (action) => {
                     myData.hits = [...res.data.hits];
                     myData.query = res.data.query
                     dispatch(saveResults(myData));
-                    // state currently is searchfeature.hits[], tags, numericfilters, page, hitsperpage, searchterms[null-initialized as empty]
-                    //myData = query, hits[], 
-                    //does not pass through searchUrl
+                    //myData = query, hits[]
                 });
         } catch (err) {
             //error handling here

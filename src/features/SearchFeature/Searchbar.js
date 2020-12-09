@@ -1,8 +1,7 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import './SearchFeature.css';
-import { saveResults, testResults, searchAPI } from './searchSlice';
-
+import { searchAPI } from './searchSlice';
 
 function Searchbar() {
   const dispatch = useDispatch();
@@ -12,10 +11,6 @@ function Searchbar() {
     let query = event.target.searchbar.value;
     const baseUrl = 'https://hn.algolia.com/api/v1/search?';
     let searchUrl = baseUrl + 'query=' + query; //query can be blank without error
-
-
-    // console.log(event.target.comments.checked);
-
     let myTags = '';
     // sets up myTags if any of the tag checkboxes are checked
     if ((event.target.story.checked === true) || (event.target.comments.checked === true) || (event.target.polls.checked === true)
@@ -25,7 +20,6 @@ function Searchbar() {
       if (event.target.orTags.checked === true) {
         myTags += '(';
       }
-
       //adds to myTas, which will be added to searchUrl
       if (event.target.story.checked === true) {
         myTags += `story,`;
@@ -68,54 +62,34 @@ function Searchbar() {
     if ((event.target.numeric1.checked === true) || (event.target.numeric2.checked === true)) {
       //check each filter individually
       let numFilters = '&numericFilters=';
-      
-      
       if (event.target.numeric1.checked === true) {
         let numSelect1 = parseInt(event.target.numberSelect1.value);
         if (isNaN(numSelect1) === true) { numSelect1 = 0; }
         numFilters += `${event.target.textSelect1.value}${event.target.conditionSelect1.value}${numSelect1},`;
       }
-
       if (event.target.numeric2.checked === true) {
         let numSelect2 = parseInt(event.target.numberSelect2.value);
         if ((isNaN(numSelect2) === true)) { numSelect2 = 0; }
         numFilters += `${event.target.textSelect2.value}${event.target.conditionSelect2.value}${numSelect2}`;
       }
-      
-
       searchUrl += numFilters;
-      console.log('num filters');
-      console.log(numFilters);
     }
-
-
     let pageNum = parseInt(event.target.pagenum.value);
     let pageBool = Number.isInteger(pageNum);
     if (pageNum > 1) {
-
-
       if (pageBool === true) {
         searchUrl += `&page=${pageNum}`;
         //else would do nothing - no need for an else statement...
       }
-
     }
-
     let pageHitNum = parseInt(event.target.numHits.value);
     if ((isNaN(pageHitNum) === true || pageHitNum < 1)) {
       pageHitNum = 10;
     }
     searchUrl += `&hitsPerPage=${pageHitNum}`;
-
-
-
     let results = { hits: [{}], searchTerms: query, searchUrl: searchUrl }; // create results to be sent through middleware
-    // results.searchUrl = searchUrl;  //set searchUrl in results so it gets searched in API
-    console.log('URL');
-    console.log(results.searchUrl); //issues here!
-
-
-
+    // console.log('URL');
+    // console.log(results.searchUrl); //most useful for testing errors
     dispatch(searchAPI(results));
   }
   // START COMPONENT
@@ -196,9 +170,6 @@ function Searchbar() {
           <option value='>='>Greater Than or Equal To</option>
         </select>
         <input type="number" name="numberSelect2" />
-        {/* example url: https://hn.algolia.com/api/v1/search?tags=story,author_breck&query=cheese
-                  http://hn.algolia.com/api/v1/search_by_date?tags=story&numericFilters=created_at_i>X,created_at_i<Y    
-          */}
       </form>
     </div >
   );
