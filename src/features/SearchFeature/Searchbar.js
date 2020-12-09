@@ -27,7 +27,7 @@ function Searchbar() {
       }
 
       //adds to myTas, which will be added to searchUrl
-      if (event.target.comments.checked === true) {
+      if (event.target.story.checked === true) {
         myTags += `story,`;
         //returning just the author, not title... need to find something to return here to make it accessible...
       }
@@ -66,24 +66,33 @@ function Searchbar() {
     }
     // if &numericFilters then add &numericFilters=
     //text,condition,number Select1 , numeric1 checkbox
-if (event.target.numeric1.checked === true /* or numeric2*/){
-    //
-    let numSelect1 = parseInt(event.target.numberSelect1.value); //return 0 if NaN
-    
-  searchUrl += `&numericFilters=${event.target.textSelect1.value}${event.target.conditionSelect1.value}${numSelect1}`;
-}
-
-
-     let pageNum = parseInt(event.target.pagenum.value);
-      let pageBool = Number.isInteger(pageNum);
-    if (pageNum > 1){
-    
-      
-      if (pageBool === true){
-        searchUrl += `&page=${pageNum}`;
-      //else would do nothing - no need for an else statement...
+    if ((event.target.numeric1.checked === true) || (event.target.numeric2.checked === true)) {
+      //check each filter individually
+      let numFilters ='&numericFilters=';
+      if (event.target.numeric1.checked === true) {
+        let numSelect1 = parseInt(event.target.numberSelect1.value); 
+        if (numSelect1 === NaN){ numSelect1 =0;}
+        numFilters += `${event.target.textSelect1.value}${event.target.conditionSelect1.value}${numSelect1},`;
       }
-      
+      if (event.target.numeric2.checked === true) {
+        let numSelect2 = parseInt(event.target.numberSelect2.value); 
+        if (numSelect2 === NaN){ numSelect2 =0;}
+        numFilters += `${event.target.textSelect2.value}${event.target.conditionSelect2.value}${numSelect2}`;
+      }
+      searchUrl =+ numFilters;
+    }
+
+
+    let pageNum = parseInt(event.target.pagenum.value);
+    let pageBool = Number.isInteger(pageNum);
+    if (pageNum > 1) {
+
+
+      if (pageBool === true) {
+        searchUrl += `&page=${pageNum}`;
+        //else would do nothing - no need for an else statement...
+      }
+
     }
     console.log(event.target.pagenum.value);
 
@@ -167,8 +176,23 @@ if (event.target.numeric1.checked === true /* or numeric2*/){
           <option value='>='>Greater Than or Equal To</option>
         </select>
         <input type="number" name="numberSelect1" />
-        {/* second Numeric filter so users can do a range or narrow downresults to some degree */}
-        
+        {/* second Numeric filter so users can do a range or narrow down results to some degree */}
+        <label > Second Numeric Filter</label> <br />
+        <input type="checkbox" name="numeric2" />
+        <select name='textSelect2'>
+          <option value='created_at_i'>Created At</option>
+          <option value='points'>Points</option>
+          <option value="num_comments">Number of Comments</option>
+        </select>
+        <select name='conditionSelect2'>
+          <option value='<'>Less Than</option>
+          <option value='<='>Less Than or Equal To</option>
+          <option value="=">Equal to</option>
+          <option value='>'> Greater Than</option>
+          <option value='>='>Greater Than or Equal To</option>
+        </select>
+        <input type="number" name="numberSelect2" />
+
         {/* created_at_i, points, num_comments, 
             page= integer
             
@@ -178,7 +202,7 @@ if (event.target.numeric1.checked === true /* or numeric2*/){
         {/* add a page and num per page button... */}
 
 
-        
+
 
         {/* example url: https://hn.algolia.com/api/v1/search?tags=story,author_breck&query=cheese
                   http://hn.algolia.com/api/v1/search_by_date?tags=story&numericFilters=created_at_i>X,created_at_i<Y    
